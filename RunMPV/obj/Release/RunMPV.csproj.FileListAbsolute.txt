@@ -1,0 +1,9 @@
+C:\Users\Dean\source\repos\RunMPV\RunMPV\bin\Release\RunMPV.exe.config
+C:\Users\Dean\source\repos\RunMPV\RunMPV\bin\Release\RunMPV.exe
+C:\Users\Dean\source\repos\RunMPV\RunMPV\bin\Release\RunMPV.pdb
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.csprojAssemblyReference.cache
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.FormMain.resources
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.Properties.Resources.resources
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.csproj.GenerateResource.cache
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.exe
+C:\Users\Dean\source\repos\RunMPV\RunMPV\obj\Release\RunMPV.pdb
