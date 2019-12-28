@@ -1,9 +1,13 @@
 # RunMPV
-An application to run a video/playlist in MPV (https://mpv.io/) at a specific quality .
+
+An application to run a video/playlist in MPV (https://mpv.io/) at a specific quality.
+
+Useful for playing videos in a low bandwidth fashion.
 
 ![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/preview.png)
 
 ## Requirements
+
 Targets and requires Windows and the .NET Framework 4.8.
 
 If you're using a recent build of Windows 10 the .NET Framework 4.8 should already be installed.
