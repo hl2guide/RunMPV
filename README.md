@@ -1,6 +1,8 @@
 # RunMPV
 An application to run a video/playlist in MPV (https://mpv.io/) at a specific quality .
 
+![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/preview.png)
+
 ## Requirements
 Targets and requires Windows and the .NET Framework 4.8.
 
