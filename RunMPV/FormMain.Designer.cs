@@ -57,12 +57,14 @@
             this.textBoxURL.Size = new System.Drawing.Size(434, 20);
             this.textBoxURL.TabIndex = 1;
             this.textBoxURL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxURL.TextChanged += new System.EventHandler(this.textBoxURL_TextChanged);
             this.textBoxURL.Enter += new System.EventHandler(this.textBoxURL_Enter);
             this.textBoxURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxURL_KeyPress);
             this.textBoxURL.Leave += new System.EventHandler(this.textBoxURL_Leave);
             // 
             // comboBoxFormat
             // 
+            this.comboBoxFormat.BackColor = System.Drawing.Color.Thistle;
             this.comboBoxFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFormat.FormattingEnabled = true;
             this.comboBoxFormat.Items.AddRange(new object[] {
@@ -119,6 +121,7 @@
             // 
             // comboBoxQuality
             // 
+            this.comboBoxQuality.BackColor = System.Drawing.Color.Thistle;
             this.comboBoxQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxQuality.FormattingEnabled = true;
             this.comboBoxQuality.Location = new System.Drawing.Point(162, 34);
@@ -137,6 +140,7 @@
             // 
             // comboBoxFPS
             // 
+            this.comboBoxFPS.BackColor = System.Drawing.Color.Thistle;
             this.comboBoxFPS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFPS.FormattingEnabled = true;
             this.comboBoxFPS.Items.AddRange(new object[] {
@@ -162,9 +166,10 @@
             this.Controls.Add(this.comboBoxFormat);
             this.Controls.Add(this.textBoxURL);
             this.Controls.Add(this.labelURL);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
-            this.Text = "RunMPV 1.0";
+            this.Text = "RunMPV 1.0.1";
             this.ResumeLayout(false);
             this.PerformLayout();
 
