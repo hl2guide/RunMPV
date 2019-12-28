@@ -20,4 +20,4 @@ Requires the Windows version of MPV (https://mpv.io/), simply place this app's E
 
 1) Download the ZIP on the releases tab on GitHub.
 2) Unzip the ZIP to the same folder you have MPV.exe in.
-3) Run RunMPV 1.0.exe
+3) Run RunMPV-X64.exe
