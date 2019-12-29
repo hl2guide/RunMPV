@@ -22,6 +22,7 @@ namespace RunMPV
         public FormMain()
         {
             InitializeComponent();
+            Text = "RunMPV 1.0.2";
             // mpvEXE = "C:\\Portable Software\\PortableApps\\PortableApps\\MPV Video Player\\mpv.exe";
             // Sets the GUI elements to defaults
             comboBoxFormat.SelectedIndex = 2;

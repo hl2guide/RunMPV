@@ -168,8 +168,10 @@
             this.Controls.Add(this.labelURL);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "FormMain";
-            this.Text = "RunMPV 1.0.1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "RunMPV";
             this.ResumeLayout(false);
             this.PerformLayout();
 
