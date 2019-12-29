@@ -14,7 +14,7 @@ If you're using a recent build of Windows 10 the .NET Framework 4.8 should alrea
 
 Windows 8.1 and older: https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-web-installer
 
-Requires the Windows version of MPV (https://mpv.io/), simply place this app's EXE file in the MPV folder and run it.
+Requires the Windows version of MPV (https://mpv.io/installation/), simply place this app's EXE file in the MPV folder and run it.
 
 ## Usage
 
