@@ -52,12 +52,16 @@
             // 
             // textBoxURL
             // 
+            this.textBoxURL.AllowDrop = true;
             this.textBoxURL.Location = new System.Drawing.Point(47, 8);
+            this.textBoxURL.MaxLength = 50;
             this.textBoxURL.Name = "textBoxURL";
             this.textBoxURL.Size = new System.Drawing.Size(434, 20);
             this.textBoxURL.TabIndex = 1;
             this.textBoxURL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxURL.TextChanged += new System.EventHandler(this.textBoxURL_TextChanged);
+            this.textBoxURL.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBoxURL_DragDrop);
+            this.textBoxURL.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBoxURL_DragEnter);
             this.textBoxURL.Enter += new System.EventHandler(this.textBoxURL_Enter);
             this.textBoxURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxURL_KeyPress);
             this.textBoxURL.Leave += new System.EventHandler(this.textBoxURL_Leave);
@@ -153,6 +157,7 @@
             // 
             // FormMain
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 66);
@@ -172,6 +177,9 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RunMPV";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
