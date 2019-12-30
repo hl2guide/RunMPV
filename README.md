@@ -1,6 +1,6 @@
 # RunMPV
 
-An application to run a video/playlist in MPV (https://mpv.io/) at a specific quality.
+An application to run a video or playlist in MPV (https://mpv.io/) at a specific quality.
 
 Useful for playing videos in a low bandwidth fashion.
 
