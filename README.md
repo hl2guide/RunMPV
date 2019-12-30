@@ -4,7 +4,7 @@ An application to run a video/playlist in MPV (https://mpv.io/) at a specific qu
 
 Useful for playing videos in a low bandwidth fashion.
 
-![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/preview.PNG)
+![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/Screenshots/main.PNG)
 
 ## Requirements
 
@@ -18,6 +18,7 @@ Requires the Windows version of MPV (https://mpv.io/installation/), simply place
 
 ## Usage
 
-1) Download the ZIP on the releases tab on GitHub.
-2) Unzip the ZIP to the same folder you have MPV.exe in.
-3) Run RunMPV-X64.exe
+1) Download the ZIP on the releases tab on GitHub
+2) Unzip the ZIP to the same folder you have MPV.exe in
+![Example Location](https://raw.githubusercontent.com/hl2guide/RunMPV/master/Screenshots/usage.PNG)
+3) Run RunMPV.exe
