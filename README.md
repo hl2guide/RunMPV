@@ -6,6 +6,13 @@ Useful for playing videos in a low bandwidth fashion.
 
 ![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/Screenshots/main.PNG)
 
+## Features
+
+- Window and TextBox allows drag-and-drop of a link
+- Format, quality and FPS selection
+- Selections retained using user settings
+- The executable is tiny, less than 100KB
+
 ## Requirements
 
 Targets and requires both Windows and the .NET Framework 4.8.
