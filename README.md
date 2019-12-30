@@ -4,7 +4,7 @@ An application to run a video/playlist in MPV (https://mpv.io/) at a specific qu
 
 Useful for playing videos in a low bandwidth fashion.
 
-![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/preview.png)
+![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/preview.PNG)
 
 ## Requirements
 
