@@ -8,7 +8,7 @@ Useful for playing videos in a low bandwidth fashion.
 
 ## Requirements
 
-Targets and requires Windows and the .NET Framework 4.8.
+Targets and requires both Windows and the .NET Framework 4.8.
 
 If you're using a recent build of Windows 10 the .NET Framework 4.8 should already be installed.
 
@@ -21,4 +21,4 @@ Requires the Windows version of MPV (https://mpv.io/installation/), simply place
 1) Download the ZIP on the releases tab on GitHub
 2) Unzip the ZIP to the same folder you have MPV.exe in
 ![Example Location](https://raw.githubusercontent.com/hl2guide/RunMPV/master/Screenshots/usage.PNG)
-3) Run RunMPV.exe
+3) Run __RunMPV.exe__
