@@ -1,11 +1,19 @@
 ﻿/*
  * REPO: https://github.com/hl2guide/RunMPV
- * VERSION: 1.0.3
+ * VERSION: 1.0.4
  * AUTHOR: hl2guide
  * LICENSE: MIT
  */
 
 /*
+ * 1.0.4 Fixes:
+ * - Added a status bar
+ * - Increased font size to 12pt
+ * - Added tooltips where relevant
+ * - Changed layout of controls
+ * - Added a checkbox for an unscaled video option
+ * - Added filesize check for MPV.exe
+ * 
  * 1.0.3 Fixes:
  * - The Window now accepts drag and drop events for valid URLs
  * - The URL TextBox now accepts drag and drop events for valid URLs
@@ -26,6 +34,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace RunMPV
@@ -34,33 +43,56 @@ namespace RunMPV
     {
         // Sets basic variables
         private string mpvEXE = Application.StartupPath + "\\mpv.exe",
-        urlMessage = "Please input one URL of a video or playlist..", arguments = "",
-            fpsValue = "", frameHeight = "", fullscreenStatus = "";
+        urlMessage = "Please input one URL of a video or playlist..",
+            arguments = "", fpsValue = "", frameHeight = "",
+            fullscreenStatus = "", unscaledStatus = "";
+        private long detectedMPVFileSize = 0;
 
         // Main Constructor
         public FormMain()
         {
             InitializeComponent();
-            Text = "RunMPV 1.0.3";
+            Text = "RunMPV 1.0.4";
             //mpvEXE = "C:\\Portable Software\\PortableApps\\PortableApps\\" +
-                //"MPV Video Player\\mpv.exe";
+            //"MPV Video Player\\mpv.exe";
             // Sets the GUI elements to defaults
             comboBoxFormat.SelectedIndex = 2;
             comboBoxQuality.SelectedIndex = 1;
             comboBoxFPS.SelectedIndex = 0;
             textBoxURL.Text = urlMessage;
             textBoxURL.ForeColor = Color.MediumPurple;
+            toolStripStatusLabelStatus.Text = "Idle - Waiting for URL";
+            loadApplicationSettings();
+            //changeFontIfAvailable();
+
             if (!File.Exists(mpvEXE))
             {
                 MessageBox.Show("This app requires MPV.exe in the same folder.\n" +
-                    "Please place it in the MPV folder and run it again.",
-                    "RunMPV requires mpv.exe",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation,
-                    MessageBoxDefaultButton.Button1);
+                    "Please place it in the MPV folder and run this app again.");
                 System.Environment.Exit(1);
             }
-            loadApplicationSettings();
+            else
+            {
+                detectedMPVFileSize = new FileInfo(mpvEXE).Length;
+                if (detectedMPVFileSize < 58000000)
+                {
+                    MessageBox.Show("MPV.exe detected but seems to be the wrong filesize.\n" +
+                        "Please check that mpv.exe is at least 55MB and run this app again.");
+                    System.Environment.Exit(1);
+                }
+            }
+        }
+
+        private void changeFontIfAvailable()
+        {
+            string fontName = "Iosevka";
+            bool isAvailable = false;
+            using (var testFont = new Font(fontName, 8))
+            isAvailable = fontName.Equals(testFont.Name, StringComparison.InvariantCultureIgnoreCase);
+            if (isAvailable == true)
+            {
+                Font = new Font(fontName, 12, FontStyle.Regular);
+            }
         }
 
         // Loads in user settings to GUI
@@ -70,6 +102,7 @@ namespace RunMPV
             comboBoxFPS.SelectedItem = Properties.Settings.Default.FPS;
             comboBoxQuality.SelectedItem = Properties.Settings.Default.Quality;
             checkBoxFullscreen.Checked = Properties.Settings.Default.Fullscreen;
+            checkBoxUnscaled.Checked = Properties.Settings.Default.Unscaled;
         }
 
         // Checks whether the textBoxURL is valid or not and modifies UI elements
@@ -87,6 +120,7 @@ namespace RunMPV
                 buttonRun.ForeColor = Color.White;
                 buttonRun.BackColor = Color.DarkGreen;
                 buttonRun.Focus();
+                toolStripStatusLabelStatus.Text = "Ready - The URL is valid, press the green button to play it";
             }
             else
             {
@@ -98,6 +132,7 @@ namespace RunMPV
                 textBoxURL.ForeColor = c;
                 buttonRun.BackColor = Color.LightGray;
                 buttonRun.Enabled = false;
+                toolStripStatusLabelStatus.Text = "Idle - Please enter a valid URL (no space characters and well-formed)";
             }
         }
 
@@ -114,6 +149,7 @@ namespace RunMPV
             if (Uri.IsWellFormedUriString(dataLink, UriKind.Absolute))
             {
                 textBoxURL.Text = dataLink;
+                toolStripStatusLabelStatus.Text = "Ready - The URL drag-and-drop has been accepted";
             }
         }
 
@@ -133,6 +169,7 @@ namespace RunMPV
             if (Uri.IsWellFormedUriString(dataLink, UriKind.Absolute))
             {
                 textBoxURL.Text = dataLink;
+                toolStripStatusLabelStatus.Text = "Ready - The URL drag-and-drop has been accepted";
             }
         }
 
@@ -153,6 +190,8 @@ namespace RunMPV
             Properties.Settings.Default.FPS = comboBoxFPS.SelectedItem.ToString();
             Properties.Settings.Default.Quality = comboBoxQuality.SelectedItem.ToString();
             Properties.Settings.Default.Fullscreen = checkBoxFullscreen.Checked;
+            Properties.Settings.Default.Unscaled = checkBoxUnscaled.Checked;
+ 
             // Saves all settings to RunMPV.exe.config
             Properties.Settings.Default.Save();
         }
@@ -208,6 +247,10 @@ namespace RunMPV
             {
                 e.Handled = true;
             }
+            else
+            {
+                toolStripStatusLabelStatus.Text = "Input Ignored - Space characters are ignored";
+            }
         }
 
         // Event for a button click on the run button
@@ -217,6 +260,7 @@ namespace RunMPV
             frameHeight = comboBoxQuality.Text;
             frameHeight = frameHeight.Replace("p", "");
             fullscreenStatus = checkBoxFullscreen.Checked.ToString();
+            unscaledStatus = checkBoxUnscaled.Checked.ToString();
 
             if (fullscreenStatus == "False")
             {
@@ -227,13 +271,25 @@ namespace RunMPV
                 fullscreenStatus = "yes";
             }
 
+            if (unscaledStatus == "False")
+            {
+                unscaledStatus = "no";
+            }
+            else
+            {
+                unscaledStatus = "yes";
+            }
+
             arguments = "--fullscreen=" + fullscreenStatus +
+                " --video-unscaled=" + unscaledStatus +
                 " --ytdl-format=bestvideo[height<=?" +
                 frameHeight + "][fps<=?" + fpsValue +
                 "][vcodec!=?vp9]+bestaudio/best " + textBoxURL.Text;
             // MessageBox.Show(arguments);
 
-            if (!File.Exists(mpvEXE))
+            detectedMPVFileSize = new FileInfo(mpvEXE).Length;
+
+            if (!File.Exists(mpvEXE) && detectedMPVFileSize < 9000)
             {
                 MessageBox.Show("This app requires MPV.exe in the same folder.\n" +
                     "Please place it in the MPV folder and click the button again.");
@@ -248,6 +304,10 @@ namespace RunMPV
                 myProcess.StartInfo.CreateNoWindow = true;
                 myProcess.StartInfo.Arguments = arguments;
                 myProcess.Start();
+                toolStripStatusLabelStatus.Text = "Started - MPV is launching, the video should appear within 12 seconds";
+                // Waits 12 seconds
+                Thread.Sleep(12000);
+                toolStripStatusLabelStatus.Text = "Started - The video should have appeared";
             }
         }
     }

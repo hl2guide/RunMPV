@@ -70,5 +70,17 @@ namespace RunMPV.Properties {
                 this["Fullscreen"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Unscaled {
+            get {
+                return ((bool)(this["Unscaled"]));
+            }
+            set {
+                this["Unscaled"] = value;
+            }
+        }
     }
 }
