@@ -10,12 +10,13 @@ Useful for playing videos in a low bandwidth fashion.
 
 ## Features
 
+
 - Window and TextBox allows drag-and-drop of a link
 - Format, quality and FPS selection
+- Checkboxes for fullscreen and unscaled modes
 - Selections retained using user settings
 - Status bar displays current status
 - Easy to read 12pt font size
-- Checkboxes for fullscreen and unscaled modes
 - Suitable tooltips
 - The executable is tiny, less than 100KB
 
