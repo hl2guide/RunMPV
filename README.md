@@ -1,4 +1,6 @@
-# RunMPV
+# RunMPV 1.0.4
+
+Last Updated: _02/01/2020_
 
 An application to run a video or playlist in MPV (https://mpv.io/) at a specific quality.
 
@@ -11,6 +13,10 @@ Useful for playing videos in a low bandwidth fashion.
 - Window and TextBox allows drag-and-drop of a link
 - Format, quality and FPS selection
 - Selections retained using user settings
+- Status bar displays current status
+- Easy to read 12pt font size
+- Checkboxes for fullscreen and unscaled modes
+- Suitable tooltips
 - The executable is tiny, less than 100KB
 
 ## Requirements
