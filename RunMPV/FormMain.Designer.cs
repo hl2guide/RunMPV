@@ -178,8 +178,8 @@
             // 
             // statusStripMain
             // 
-            this.statusStripMain.BackColor = System.Drawing.SystemColors.Info;
-            this.statusStripMain.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusStripMain.BackColor = System.Drawing.Color.Indigo;
+            this.statusStripMain.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelStatus});
             this.statusStripMain.Location = new System.Drawing.Point(0, 116);
@@ -191,6 +191,7 @@
             // 
             // toolStripStatusLabelStatus
             // 
+            this.toolStripStatusLabelStatus.ForeColor = System.Drawing.Color.White;
             this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
             this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(0, 17);
             // 
