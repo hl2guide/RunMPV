@@ -1,6 +1,6 @@
-# RunMPV 1.0.5
+# RunMPV 1.1
 
-Last Updated: _17/01/2020_
+Last Updated: _24/03/2020_
 
 An application to run a video or playlist in MPV (https://mpv.io/) at a specific quality.
 
