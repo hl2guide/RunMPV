@@ -13,12 +13,16 @@ It's useful for playing videos in a low bandwidth fashion.
 ## Features
 
 - Window and TextBox allows drag-and-drop of a link
+- Audio volume selection (value, track bar and mute checkbox controls)
 - Format, quality and FPS selection
 - Checkboxes for fullscreen and unscaled modes
+- Playlist mode selection
+- Arguments Preview
 - Selections retained using user settings
 - Status bar displays current status
 - Easy to read 12pt font size
 - Suitable tooltips
+- Support for YouTube playlist links
 - The executable is tiny, less than 100KB
 
 ## Requirements
