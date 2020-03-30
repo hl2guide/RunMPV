@@ -1,6 +1,6 @@
 ﻿/*
  * REPO: https://github.com/hl2guide/RunMPV
- * VERSION: 1.0.6
+ * VERSION: 1.1.1
  * AUTHOR: hl2guide
  * LICENSE: MIT
  * CODE CLEAN UP: CODEMAID (VISUAL STUDIO EXTENSION)
@@ -12,6 +12,10 @@
  * */
 
 /*
+ * 1.1.1 Changes (unreleased):
+ * - Fixed old URL retention issue
+ * - Code clean up
+ *
  * 1.1 Changes:
  * - Code cleanup and standardization
  * - Increased tooltip display period
@@ -57,7 +61,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
+//using System.Web;
 using System.Windows.Forms;
 
 namespace RunMPV
@@ -68,13 +72,14 @@ namespace RunMPV
         private readonly string mpvEXE = Application.StartupPath + "\\mpv.exe",
                 urlMessage = "Please input one URL of a video or playlist..",
                 programName = "RunMPV",
-                programVersion = "1.1";
+                programVersion = "1.1.1";
 
         // Sets basic variables
         private string arguments = "", // argumentsPreview = "",
             fpsValue = "", frameHeight = "",
             fullscreenStatus = "", unscaledStatus = "",
-            videoPlaylistMode = "", playlistArguments = "";
+            videoPlaylistMode = "", playlistArguments = "",
+            url = "";
 
         private long detectedMPVFileSize = 0;
 
@@ -119,17 +124,13 @@ namespace RunMPV
             InitializeComponent();
             PopulatePlaylistModeDropDown();
             // NOTE: Disabled for release
-            //mpvEXE = "D:\\Portable Software\\PortableApps\\PortableApps\\MPV Video Player\\mpv.exe";
+            // mpvEXE = "D:\\Portable Software\\PortableApps\\PortableApps\\MPV Video Player\\mpv.exe";
+
             // Sets the GUI elements to defaults
             Text = programName + " " + programVersion;
-            // textBoxURL.Text = urlMessage;
             toolStripStatusLabelStatus.Text = messageToolStripIdle;
-            textBoxURL.ForeColor = Color.MediumPurple;
-            //comboBoxFormat.SelectedIndex = 2;
-            //comboBoxQuality.SelectedIndex = 1;
-            //comboBoxFPS.SelectedIndex = 0;
             toolTipMain.SetToolTip(textBoxURL, messageTextBoxURLToolTip);
-            
+
             // TODO: Add screen detection
             // currentNumberOfScreens = GetCountOfScreens();
 
@@ -137,8 +138,6 @@ namespace RunMPV
             try
             {
                 LoadApplicationSettings();
-                // textBoxConsolePreview.Text = generateArguments();
-                //changeFontIfAvailable();
             }
             catch (Exception)
             {
@@ -148,7 +147,7 @@ namespace RunMPV
                 System.Environment.Exit(1);
             }
 
-            // Check if MPV.exe was detected
+            // Checks if MPV.exe was detected
             if (!File.Exists(mpvEXE))
             {
                 MessageBox.Show(messageBoxMPVRequiredText,
@@ -169,6 +168,7 @@ namespace RunMPV
             }
         }
 
+        // Populates the playlist mode drop down
         private void PopulatePlaylistModeDropDown()
         {
             ArrayList playlistItems = new ArrayList
@@ -194,15 +194,34 @@ namespace RunMPV
             return countScreens;
         }*/
 
+        // Checks whether a URL exists
+        public static bool URLExists(string url)
+        {
+            WebRequest webRequest = WebRequest.Create(url);
+            webRequest.Timeout = 1000;
+            WebResponse webResponse;
+            try
+            {
+                webResponse = webRequest.GetResponse();
+            }
+            catch //If exception thrown then couldn't get response from address
+            {
+                return false;
+            }
+            return true;
+        }
+
         // Checks whether the textBoxURL is valid or not and modifies UI elements
         private void CheckValid()
         {
-            if (textBoxURL.Text == String.Empty)
+            url = textBoxURL.Text.Trim();
+
+            if(url == String.Empty)
             {
                 //textBoxURL.Text = urlMessage;
                 textBoxURL.ForeColor = Color.MediumPurple;
             }
-            if (Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
+            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
                 textBoxURL.BackColor = Color.LightGreen;
                 buttonRun.ForeColor = Color.White;
@@ -227,8 +246,10 @@ namespace RunMPV
                 toolStripStatusLabelStatus.Text = messageToolStripIdleForValidURL;
                 Text = programName + " " + programVersion + " - " + messageAwaitingValidURL;
             }
+            textBoxConsolePreview.Text = GenerateArguments();
         }
 
+        /*
         public static string GetVideoTitle(string url)
         {
             if (url.Contains("https://www.youtube.com/watch?v="))
@@ -241,6 +262,7 @@ namespace RunMPV
                 return "aa";
             }
         }
+        
 
         private static string GetArgs(string args, string key, char query)
         {
@@ -250,6 +272,7 @@ namespace RunMPV
                 : HttpUtility.ParseQueryString(iqs < args.Length - 1
                     ? args.Substring(iqs + 1) : string.Empty)[key];
         }
+        */
 
         private string GenerateArguments()
         {
@@ -299,11 +322,11 @@ namespace RunMPV
                     unscaledStatus = "yes";
                 }
 
-                if(videoPlaylistMode == "Reversed")
+                if (videoPlaylistMode == "Reversed")
                 {
                     playlistArguments = "--ytdl-raw-options=playlist-reverse=";
                 }
-                else if(videoPlaylistMode == "Random")
+                else if (videoPlaylistMode == "Random")
                 {
                     playlistArguments = "--ytdl-raw-options=playlist-random=";
                 }
@@ -330,7 +353,8 @@ namespace RunMPV
                     "][vcodec!=?vp9]+bestaudio/best" +
                     " --video-unscaled=" + unscaledStatus +
                     " --fullscreen=" + fullscreenStatus +
-                    " " + playlistArguments;
+                    " " + playlistArguments +
+                    " " + url;
 
                 //argumentsPreview = argumentsPreview.Trim();
                 arguments = arguments.Trim();
@@ -344,6 +368,79 @@ namespace RunMPV
                 return arguments;
             }
             return arguments;
+        }
+
+        // Launches a video in MPV
+        private async void LaunchVideoInMPV()
+        {
+            try
+            {
+                detectedMPVFileSize = new FileInfo(mpvEXE).Length;
+
+                if (!File.Exists(mpvEXE) && detectedMPVFileSize < 9000)
+                {
+                    MessageBox.Show(messageBoxMPVRequiredText,
+                        messageBoxMPVRequiredTitle,
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    arguments = arguments + " " + textBoxURL.Text;
+
+                    // Starts the MPV process with passed arguments
+                    Process myProcess = new Process();
+                    myProcess.StartInfo.UseShellExecute = false;
+                    // You can start any process
+                    myProcess.StartInfo.FileName = mpvEXE;
+                    myProcess.StartInfo.CreateNoWindow = true;
+                    myProcess.StartInfo.Arguments = arguments;
+                    myProcess.Start();
+                    toolStripStatusLabelStatus.Text = messageToolStripMPVLaunching;
+                    Text = programName + " " + programVersion + " - " + messageLaunching;
+                    // Waits 12 seconds
+                    // Thread.Sleep(12000);
+                    await Task.Delay(12000);
+                    toolStripStatusLabelStatus.Text = messageToolStripMPVStarted;
+                    Text = programName + " " + programVersion + " - " + messageCheckMPV;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(messageBoxMPVFailedMPVLaunchText,
+                    messageBoxMPVFailedMPVLaunchTitle,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Loads in user settings to GUI
+        private void LoadApplicationSettings()
+        {
+            numericUpDownAudioVolume.Value = Properties.Settings.Default.Volume;
+            comboBoxFormat.SelectedItem = Properties.Settings.Default.Format;
+            comboBoxFPS.SelectedItem = Properties.Settings.Default.FPS;
+            comboBoxQuality.SelectedItem = Properties.Settings.Default.Quality;
+            checkBoxFullscreen.Checked = Properties.Settings.Default.Fullscreen;
+            checkBoxUnscaled.Checked = Properties.Settings.Default.Unscaled;
+            comboBoxPlaylistMode.SelectedItem = Properties.Settings.Default.PlaylistMode;
+        }
+
+        // Event for closing the main form
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Text = programName + " " + programVersion + " - " + messageSavingSettings;
+
+            // Gets settings from the GUI
+            Properties.Settings.Default.Format = comboBoxFormat.SelectedItem.ToString();
+            Properties.Settings.Default.FPS = comboBoxFPS.SelectedItem.ToString();
+            Properties.Settings.Default.Quality = comboBoxQuality.SelectedItem.ToString();
+            Properties.Settings.Default.Fullscreen = checkBoxFullscreen.Checked;
+            Properties.Settings.Default.Unscaled = checkBoxUnscaled.Checked;
+            Properties.Settings.Default.Volume = (int)numericUpDownAudioVolume.Value;
+            Properties.Settings.Default.PlaylistMode = comboBoxPlaylistMode.SelectedItem.ToString();
+            // =======================================
+
+            // Saves all settings to RunMPV.exe.config
+            Properties.Settings.Default.Save();
         }
 
         private void ComboBoxPlaylistMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -436,6 +533,15 @@ namespace RunMPV
             CheckValid();
         }
 
+        // Event for the drag enter for URL textbox
+        private void TextBoxURL_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Text))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
         // Event for the drag drop for the URL textbox
         private void TextBoxURL_DragDrop(object sender, DragEventArgs e)
         {
@@ -446,15 +552,6 @@ namespace RunMPV
                 toolStripStatusLabelStatus.Text = messageToolStripReadyURLAcceptedDragDrop;
                 Text = programName + " " + programVersion + " - " + messageDragDropAccepted;
             }
-        }
-
-        // Event for the drag enter for URL textbox
-        private void TextBoxURL_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.Text))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
         }
 
         // Event for the drag drop for the form
@@ -476,37 +573,6 @@ namespace RunMPV
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
-        }
-
-        // Loads in user settings to GUI
-        private void LoadApplicationSettings()
-        {
-            numericUpDownAudioVolume.Value = Properties.Settings.Default.Volume;
-            comboBoxFormat.SelectedItem = Properties.Settings.Default.Format;
-            comboBoxFPS.SelectedItem = Properties.Settings.Default.FPS;
-            comboBoxQuality.SelectedItem = Properties.Settings.Default.Quality;
-            checkBoxFullscreen.Checked = Properties.Settings.Default.Fullscreen;
-            checkBoxUnscaled.Checked = Properties.Settings.Default.Unscaled;
-            comboBoxPlaylistMode.SelectedItem = Properties.Settings.Default.PlaylistMode;
-        }
-
-        // Event for closing the main form
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Text = programName + " " + programVersion + " - " + messageSavingSettings;
-
-            // Gets settings from the GUI
-            Properties.Settings.Default.Format = comboBoxFormat.SelectedItem.ToString();
-            Properties.Settings.Default.FPS = comboBoxFPS.SelectedItem.ToString();
-            Properties.Settings.Default.Quality = comboBoxQuality.SelectedItem.ToString();
-            Properties.Settings.Default.Fullscreen = checkBoxFullscreen.Checked;
-            Properties.Settings.Default.Unscaled = checkBoxUnscaled.Checked;
-            Properties.Settings.Default.Volume = (int)numericUpDownAudioVolume.Value;
-            Properties.Settings.Default.PlaylistMode = comboBoxPlaylistMode.SelectedItem.ToString();
-            // =======================================
-
-            // Saves all settings to RunMPV.exe.config
-            Properties.Settings.Default.Save();
         }
 
         // Responsive linked comboxes
@@ -576,44 +642,9 @@ namespace RunMPV
         }
 
         // Event for a button click on the run button
-        private async void ButtonRun_Click(object sender, EventArgs e)
+        private void ButtonRun_Click(object sender, EventArgs e)
         {
-            try {
-                detectedMPVFileSize = new FileInfo(mpvEXE).Length;
-
-                if (!File.Exists(mpvEXE) && detectedMPVFileSize < 9000)
-                {
-                    MessageBox.Show(messageBoxMPVRequiredText,
-                        messageBoxMPVRequiredTitle,
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    arguments = arguments + " " + textBoxURL.Text;
-                    
-                    // Starts the MPV process with passed arguments
-                    Process myProcess = new Process();
-                    myProcess.StartInfo.UseShellExecute = false;
-                    // You can start any process
-                    myProcess.StartInfo.FileName = mpvEXE;
-                    myProcess.StartInfo.CreateNoWindow = true;
-                    myProcess.StartInfo.Arguments = arguments;
-                    myProcess.Start();
-                    toolStripStatusLabelStatus.Text = messageToolStripMPVLaunching;
-                    Text = programName + " " + programVersion + " - " + messageLaunching;
-                    // Waits 12 seconds
-                    // Thread.Sleep(12000);
-                    await Task.Delay(12000);
-                    toolStripStatusLabelStatus.Text = messageToolStripMPVStarted;
-                    Text = programName + " " + programVersion + " - " + messageCheckMPV;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(messageBoxMPVFailedMPVLaunchText,
-                    messageBoxMPVFailedMPVLaunchTitle,
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            LaunchVideoInMPV();
         }
     }
 }

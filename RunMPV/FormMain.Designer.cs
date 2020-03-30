@@ -54,6 +54,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBoxPreview = new System.Windows.Forms.GroupBox();
             this.textBoxConsolePreview = new System.Windows.Forms.TextBox();
+            this.labelPercent = new System.Windows.Forms.Label();
             this.statusStripMain.SuspendLayout();
             this.groupBoxAudio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAudioVolume)).BeginInit();
@@ -125,7 +126,7 @@
             this.buttonRun.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(884, 51);
-            this.buttonRun.TabIndex = 4;
+            this.buttonRun.TabIndex = 5;
             this.buttonRun.Text = "&Play in MPV";
             this.toolTipMain.SetToolTip(this.buttonRun, "Runs MPV with the selected settings.");
             this.buttonRun.UseVisualStyleBackColor = false;
@@ -204,7 +205,7 @@
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Size = new System.Drawing.Size(884, 22);
             this.statusStripMain.SizingGrip = false;
-            this.statusStripMain.TabIndex = 5;
+            this.statusStripMain.TabIndex = 6;
             this.statusStripMain.Text = "statusStripMain";
             // 
             // toolStripStatusLabelStatus
@@ -235,6 +236,7 @@
             // 
             // groupBoxAudio
             // 
+            this.groupBoxAudio.Controls.Add(this.labelPercent);
             this.groupBoxAudio.Controls.Add(this.numericUpDownAudioVolume);
             this.groupBoxAudio.Controls.Add(this.checkBoxAudioMute);
             this.groupBoxAudio.Controls.Add(this.trackBarAudioVolume);
@@ -261,18 +263,18 @@
             this.checkBoxAudioMute.Location = new System.Drawing.Point(783, 30);
             this.checkBoxAudioMute.Name = "checkBoxAudioMute";
             this.checkBoxAudioMute.Size = new System.Drawing.Size(64, 24);
-            this.checkBoxAudioMute.TabIndex = 3;
+            this.checkBoxAudioMute.TabIndex = 4;
             this.checkBoxAudioMute.Text = "&Mute";
             this.checkBoxAudioMute.UseVisualStyleBackColor = true;
             this.checkBoxAudioMute.CheckedChanged += new System.EventHandler(this.CheckBoxAudioMute_CheckedChanged);
             // 
             // trackBarAudioVolume
             // 
-            this.trackBarAudioVolume.Location = new System.Drawing.Point(136, 22);
+            this.trackBarAudioVolume.Location = new System.Drawing.Point(181, 22);
             this.trackBarAudioVolume.Maximum = 100;
             this.trackBarAudioVolume.Name = "trackBarAudioVolume";
-            this.trackBarAudioVolume.Size = new System.Drawing.Size(641, 45);
-            this.trackBarAudioVolume.TabIndex = 2;
+            this.trackBarAudioVolume.Size = new System.Drawing.Size(596, 45);
+            this.trackBarAudioVolume.TabIndex = 3;
             this.trackBarAudioVolume.TickFrequency = 5;
             this.trackBarAudioVolume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBarAudioVolume.Scroll += new System.EventHandler(this.TrackBarAudioVolume_Scroll);
@@ -332,7 +334,7 @@
             this.groupBoxPreview.Location = new System.Drawing.Point(12, 222);
             this.groupBoxPreview.Name = "groupBoxPreview";
             this.groupBoxPreview.Size = new System.Drawing.Size(860, 83);
-            this.groupBoxPreview.TabIndex = 6;
+            this.groupBoxPreview.TabIndex = 4;
             this.groupBoxPreview.TabStop = false;
             this.groupBoxPreview.Text = "&Arguments Preview";
             // 
@@ -346,6 +348,15 @@
             this.textBoxConsolePreview.Name = "textBoxConsolePreview";
             this.textBoxConsolePreview.Size = new System.Drawing.Size(850, 53);
             this.textBoxConsolePreview.TabIndex = 0;
+            // 
+            // labelPercent
+            // 
+            this.labelPercent.AutoSize = true;
+            this.labelPercent.Location = new System.Drawing.Point(136, 34);
+            this.labelPercent.Name = "labelPercent";
+            this.labelPercent.Size = new System.Drawing.Size(23, 20);
+            this.labelPercent.TabIndex = 2;
+            this.labelPercent.Text = "%";
             // 
             // FormMain
             // 
@@ -412,6 +423,7 @@
         private System.Windows.Forms.TextBox textBoxConsolePreview;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxPlaylistMode;
+        private System.Windows.Forms.Label labelPercent;
     }
 }
 
