@@ -8,7 +8,7 @@ It's useful for playing videos in a low bandwidth fashion.
 
 ![Preview](https://raw.githubusercontent.com/hl2guide/RunMPV/master/Screenshots/main.PNG)
 
-[VirusTotal Result](https://www.virustotal.com/gui/file/da14c79146dac985590acd128bdbba2b16dc879562c9e3f8d5958a53518932e2/detection)
+[VirusTotal Result](https://www.virustotal.com/gui/file/0b5bbcab1066fa331a27ce0d4056818e71eae77938368ad6154807cb529625a3/detection)
 
 ## Features
 
