@@ -2,7 +2,7 @@
 
 Last Updated: _30/03/2020_
 
-An application to run a video or playlist in MPV (https://mpv.io/) at a specific quality.
+An C# WinForms app for Windows to run a video or playlist in MPV (https://mpv.io/) at a specific quality.
 
 It's useful for playing videos in a low bandwidth fashion.
 
